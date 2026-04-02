@@ -1,0 +1,4 @@
+# Rules: only use to override values, not to enable or disable certain config option.
+
+# Overrides ESP-IDF v4.4.6 CONFIG_FREERTOS_HZ value (100) to enable ESP32 Arduino Core as ESP-IDF component
+CONFIG_FREERTOS_HZ=1000
