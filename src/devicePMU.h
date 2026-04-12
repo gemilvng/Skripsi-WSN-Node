@@ -7,5 +7,4 @@
 #include <Arduino.h>
 #include "XPowersLib.h"
 
-bool deviceInit(bool i2cInitStatus, bool enableGPS, bool enableLoRa);
-bool deviceSleep();
+bool deviceInit(bool enableGPSFlag, bool enableLoRaFlag);
