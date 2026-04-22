@@ -3,35 +3,37 @@
 // File header
 #include <Arduino.h>
 #include <Wire.h>
-#include "config.h"
-#include "devicePMU.h"
 #include <esp_log.h>
-#include "sdkconfig.h"
 
-static bool i2cInitStatus;
-static bool deviceInitStatus;
+#include "config.h"
+#include "pmu.h"
+#include "node_identity.h"
+
 
 void setup() {
     // Initialize I2C communication
-    i2cInitStatus = Wire.begin((int)I2C_SDA, (int)I2C_SCL);
+    bool i2c_init_status = Wire.begin((int)I2C_SDA, (int)I2C_SCL);
 
     // Guard clause for I2C init status
-    if (!i2cInitStatus) {
+    if (!i2c_init_status) {
         ESP_LOGE("Main", "I2C init failed");
         return;
     }
 
     // Initialize PMU module
-    deviceInitStatus = deviceInit(GNSS_ENABLE_FLAG, LORA_ENABLE_FLAG);
+    bool pmu_init_status = pmu_init(GNSS_ENABLE_FLAG, LORA_ENABLE_FLAG);
     
     // Guard clause for PMU module init status
-    if (!deviceInitStatus) {
+    if (!pmu_init_status) {
         ESP_LOGE("Main", "PMU Init failed");
         return;
     }
+
+    // Assign node ID
+    node_identity_init();
 }
 
 void loop() {
-    // To make the board idle without consuming too much power
-    vTaskDelay(200000 / portTICK_PERIOD_MS);
+    vTaskDelay(pdMS_TO_TICKS(1000));
+    ESP_LOGI("MAIN", "The main program is empty.");
 }
