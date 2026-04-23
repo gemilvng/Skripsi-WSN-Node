@@ -1,18 +1,19 @@
 // pmu.cpp
 
 #include "pmu.h"
-#include "XPowersLib.h"
+#define XPOWERS_CHIP_AXP2101
+#include <XPowersLib.h>
 
 XPowersPMU device_pmu;
 
-bool pmu_init(bool enable_gps_flag, bool enable_lora_flag){
+bool pmu_setup(bool enable_gps_flag, bool enable_lora_flag){
 
-    bool pmu_init_status = device_pmu.init();
+    bool pmu_setup_status = device_pmu.init();
 
     // Guard clause for PMU init status
-    if (!pmu_init_status) {
+    if (!pmu_setup_status) {
         ESP_LOGE("PMU", "AXP2101 initialization failed");
-        return false;
+        return pmu_setup_status;
     }
 
     if (device_pmu.isEnableDC1()) {
@@ -63,5 +64,5 @@ bool pmu_init(bool enable_gps_flag, bool enable_lora_flag){
     device_pmu.disableDLDO1();
     device_pmu.disableDLDO2();
 
-    return true;
+    return pmu_setup_status;
 }

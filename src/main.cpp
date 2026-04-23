@@ -11,22 +11,25 @@
 
 
 void setup() {
+    ESP_LOGI("Main", "Reset reason: %d", esp_reset_reason());
     // Initialize I2C communication
     bool i2c_init_status = Wire.begin((int)I2C_SDA, (int)I2C_SCL);
 
     // Guard clause for I2C init status
     if (!i2c_init_status) {
-        ESP_LOGE("Main", "I2C init failed");
-        return;
+        ESP_LOGE("Main", "I2C init failed. Restarting in 3s ...");
+        vTaskDelay(pdMS_TO_TICKS(3000));
+        esp_restart();
     }
 
-    // Initialize PMU module
-    bool pmu_init_status = pmu_init(GNSS_ENABLE_FLAG, LORA_ENABLE_FLAG);
+    // PMU module setup
+    bool pmu_setup_status = pmu_setup(GNSS_ENABLE_FLAG, LORA_ENABLE_FLAG);
     
-    // Guard clause for PMU module init status
-    if (!pmu_init_status) {
-        ESP_LOGE("Main", "PMU Init failed");
-        return;
+    // Guard clause for PMU module setup status
+    if (!pmu_setup_status) {
+        ESP_LOGE("Main", "PMU setup failed. Restarting in 3s ...");
+        vTaskDelay(pdMS_TO_TICKS(3000));
+        esp_restart();
     }
 
     // Assign node ID
@@ -34,6 +37,6 @@ void setup() {
 }
 
 void loop() {
-    vTaskDelay(pdMS_TO_TICKS(1000));
+    vTaskDelay(pdMS_TO_TICKS(60000));
     ESP_LOGI("MAIN", "The main program is empty.");
 }
