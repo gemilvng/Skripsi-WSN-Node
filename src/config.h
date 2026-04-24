@@ -14,14 +14,17 @@
 #define LORA_ENABLE_FLAG true
 
 // LoRa network configuration
-#define LM_BAND 921.900F
-#define LM_POWER 8
-#define LM_DUTY_CYCLE 100
+#define LORA_FREQ_MHZ 921.900F
+#define LORA_TX_POWER_DBM 8
+#define LORA_SF 7
+#define LORA_BW_KHZ 125
+#define LORA_CR 5
 
 // LoRa pin interface (LilyGo T-Beam V1.2, SX1276)
-#define LORA_PIN_SCLK = 5
-#define LORA_PIN_MISO = 19
-#define LORA_PIN_MOSI = 27
-#define LORA_PIN_CS   = 18
-#define LORA_PIN_RST  = 23
-#define LORA_PIN_DIO0 = 26
+#define LORA_PIN_SCLK 5
+#define LORA_PIN_MISO 19
+#define LORA_PIN_MOSI 27
+#define LORA_PIN_CS 18
+#define LORA_PIN_RST 23
+#define LORA_PIN_DIO0 26
+#define LORA_PIN_DIO1 33
