@@ -4,6 +4,6 @@
 
 #include <LoraMesher.h> 
 
+LoraMesher& lora_radio_instance(void); 
 void lora_radio_begin(void);
 void lora_radio_start(void);
-LoraMesher& lora_radio_instance(void); 

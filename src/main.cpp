@@ -3,16 +3,20 @@
 // File header
 #include <Arduino.h>
 #include <Wire.h>
+#include <SPI.h>
 #include <esp_log.h>
 
 #include "config.h"
 #include "pmu.h"
 #include "node_identity.h"
+#include "lora_radio.h"
 
 
 void setup() {
+
     ESP_LOGI("Main", "Reset reason: %d", esp_reset_reason());
-    // Initialize I2C communication
+
+    // I2C setup
     bool i2c_init_status = Wire.begin((int)I2C_SDA, (int)I2C_SCL);
 
     // Guard clause for I2C init status
@@ -21,6 +25,9 @@ void setup() {
         vTaskDelay(pdMS_TO_TICKS(3000));
         esp_restart();
     }
+
+    // SPI setup
+    SPI.begin(LORA_PIN_SCLK, LORA_PIN_MISO, LORA_PIN_MOSI, LORA_PIN_CS);
 
     // PMU module setup
     bool pmu_setup_status = pmu_setup(GNSS_ENABLE_FLAG, LORA_ENABLE_FLAG);
@@ -32,8 +39,10 @@ void setup() {
         esp_restart();
     }
 
-    // Assign node ID
+    // Node configuration and initialization
     node_identity_init();
+    lora_radio_begin();
+    lora_radio_start();
 }
 
 void loop() {
