@@ -33,3 +33,6 @@
 #define OUTBOUND_QUEUE_SIZE 256
 #define UPLINK_QUEUE_SIZE 256
 #define LOG_QUEUE_SIZE 32
+
+// Sensor-related
+#define SENSING_INTERVAL_MS 60000

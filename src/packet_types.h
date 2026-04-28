@@ -18,7 +18,7 @@ struct __attribute__((packed)) sensor_packet_t {
 };
 
 struct network_packet_t {
-    sensor_packet_t packet;
+    sensor_packet_t sensor_pkt;
     uint32_t measurement_timestamp_ms;
 };
 
