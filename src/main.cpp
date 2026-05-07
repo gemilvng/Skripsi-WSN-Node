@@ -10,6 +10,8 @@
 #include "pmu.h"
 #include "node_identity.h"
 #include "lora_radio.h"
+#include "app_queues.h"
+#include "sensor_task.h"
 
 
 void setup() {
@@ -41,8 +43,17 @@ void setup() {
 
     // Node configuration and initialization
     node_identity_init();
+    app_queues_init();
     lora_radio_begin();
     lora_radio_start();
+
+    // For testing purpose
+    if (node_identity_get() == 0) {
+        lora_radio_instance().addGatewayRole();
+        ESP_LOGI("Main", "Bring-up: this node acts as gateway");
+    }
+
+    start_sensor_task();
 }
 
 void loop() {
